@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ shop_name }} - Share Acc Liên Quân</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #fff; min-height: 100vh; }
+
+        header { background: rgba(0,0,0,0.4); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff1744; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-circle { width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #ff1744, #ff9100); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; box-shadow: 0 0 20px #ff1744; overflow: hidden; flex-shrink: 0; }
+        .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-text { font-size: 24px; font-weight: 800; background: linear-gradient(90deg, #ff1744, #ff9100); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: #fff; text-decoration: none; margin-left: 20px; font-weight: 600; transition: .3s; }
+        nav a:hover { color: #ff1744; }
+        .btn { padding: 10px 24px; border-radius: 30px; border: none; background: linear-gradient(135deg, #ff1744, #ff9100); color: #fff; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: .3s; }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ff1744; }
+        .btn-telegram { background: linear-gradient(135deg, #0088cc, #00b4db); }
+        .btn-telegram:hover { box-shadow: 0 0 20px #0088cc; }
+        .btn-mission { background: linear-gradient(135deg, #4caf50, #8bc34a); }
+        .btn-mission:hover { box-shadow: 0 0 20px #4caf50; }
+
+        .hero { text-align: center; padding: 70px 20px 40px; }
+        .hero-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 25px; background: linear-gradient(135deg, #ff1744, #ff9100); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 45px; box-shadow: 0 0 40px rgba(255,23,68,0.6); overflow: hidden; border: 4px solid rgba(255,255,255,0.2); }
+        .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .hero h1 { font-size: 48px; background: linear-gradient(90deg, #ff1744, #ff9100, #ffeb3b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
+        .hero p { font-size: 18px; color: #ccc; margin-bottom: 30px; }
+        .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .hero-buttons .btn { font-size: 17px; padding: 15px 35px; }
+
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; text-align: center; transition: .3s; }
+        .card:hover { transform: translateY(-8px); border-color: #ff1744; box-shadow: 0 15px 40px rgba(255,23,68,0.3); }
+        .card h3 { color: #ff9100; margin-bottom: 15px; font-size: 22px; }
+        .card p { color: #bbb; }
+        .price-tag { font-size: 42px; font-weight: 900; color: #ff1744; margin: 20px 0; }
+
+        .cta-section { max-width: 900px; margin: 30px auto; padding: 0 20px; display: grid; gap: 25px; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .cta-section { grid-template-columns: 1fr 1fr; } }
+        .cta-card { border-radius: 20px; padding: 35px 30px; text-align: center; transition: .3s; position: relative; overflow: hidden; }
+        .cta-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .cta-card.tg { background: rgba(0, 136, 204, 0.12); border: 1px solid rgba(0, 136, 204, 0.4); }
+        .cta-card.tg::before { background: linear-gradient(90deg, #0088cc, #00b4db); }
+        .cta-card.tg h3 { color: #00b4db; }
+        .cta-card.mission { background: rgba(76, 175, 80, 0.12); border: 1px solid rgba(76, 175, 80, 0.4); }
+        .cta-card.mission::before { background: linear-gradient(90deg, #4caf50, #8bc34a); }
+        .cta-card.mission h3 { color: #4caf50; }
+        .cta-card:hover { transform: translateY(-5px); }
+        .cta-card.tg:hover { box-shadow: 0 15px 40px rgba(0, 136, 204, 0.3); }
+        .cta-card.mission:hover { box-shadow: 0 15px 40px rgba(76, 175, 80, 0.3); }
+        .cta-card h3 { font-size: 24px; margin-bottom: 12px; }
+        .cta-card p { color: #ccc; margin-bottom: 20px; font-size: 14px; }
+        .cta-card .tg-username { display: inline-block; padding: 10px 25px; background: linear-gradient(135deg, #0088cc, #00b4db); border-radius: 30px; font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 15px; }
+
+        footer { text-align: center; padding: 30px; color: #777; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-circle">
+                {% if shop_avatar %}
+                    <img src="{{ shop_avatar }}" alt="Avatar" onerror="this.parentElement.innerText='QD'">
+                {% else %}
+                    QD
+                {% endif %}
+            </div>
+            <div class="logo-text">{{ shop_name }}</div>
+        </div>
+        <nav>
+            <a href="/">Trang chủ</a>
+            <a href="/get_acc">Nhận Acc</a>
+            <a href="{{ telegram_link }}" target="_blank" class="btn btn-telegram">💬 Telegram</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-avatar">
+            {% if shop_avatar %}
+                <img src="{{ shop_avatar }}" alt="Avatar" onerror="this.parentElement.innerText='QD'">
+            {% else %}
+                QD
+            {% endif %}
+        </div>
+        <h1>{{ shop_name }}</h1>
+        <p>{{ shop_description }} - Mua key chỉ {{ key_price }} - Nhận ngay 10 acc</p>
+        <div class="hero-buttons">
+            <a href="{{ telegram_link }}" target="_blank" class="btn btn-telegram">💬 MUA KEY QUA TELEGRAM</a>
+            <a href="{{ mission_link }}" target="_blank" class="btn btn-mission">🎁 NHẬN KEY MIỄN PHÍ</a>
+        </div>
+    </section>
+
+    <div class="features">
+        <div class="card">
+            <h3>💰 Giá Siêu Rẻ</h3>
+            <div class="price-tag">{{ key_price }}</div>
+            <p>Chỉ {{ key_price }} cho 1 key random 10 acc Liên Quân</p>
+        </div>
+        <div class="card">
+            <h3>🎁 10 Acc / Key</h3>
+            <p>Mỗi key nhận ngay 10 tài khoản random, không trùng lặp</p>
+        </div>
+        <div class="card">
+            <h3>⚡ Nhận Ngay</h3>
+            <p>Nhập key → nhận acc ngay lập tức, không cần đăng ký</p>
+        </div>
+        <div class="card">
+            <h3>📦 Kho Acc</h3>
+            <p>Hơn <b style="color:#ff9100">{{ "{:,}".format(total_accounts) }}</b> acc chất lượng, cập nhật liên tục</p>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <div class="cta-card tg">
+            <h3>💬 MUA KEY</h3>
+            <p>Liên hệ Telegram để mua key với giá chỉ <b style="color:#ffeb3b">{{ key_price }}</b></p>
+            <div class="tg-username">@{{ telegram_username }}</div>
+            <br>
+            <a href="{{ telegram_link }}" target="_blank" class="btn btn-telegram" style="padding: 14px 35px;">💬 LIÊN HỆ MUA KEY</a>
+        </div>
+        <div class="cta-card mission">
+            <h3>🎁 NHẬN KEY MIỄN PHÍ</h3>
+            <p>Hoàn thành nhiệm vụ để nhận key MIỄN PHÍ, sau đó vào "Nhận Acc" để lấy 10 acc</p>
+            <br>
+            <a href="{{ mission_link }}" target="_blank" class="btn btn-mission" style="padding: 14px 35px;">🎯 LÀM NHIỆM VỤ NGAY</a>
+        </div>
+    </div>
+
+    <div style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px;">
+            <h3 style="color: #ff9100; margin-bottom: 20px; text-align: center; font-size: 22px;">📖 HƯỚNG DẪN</h3>
+            <div style="display: grid; gap: 15px;">
+                <div style="display: flex; gap: 15px; align-items: flex-start;">
+                    <div style="min-width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#ff1744,#ff9100); display: flex; align-items: center; justify-content: center; font-weight: 900;">1</div>
+                    <div>
+                        <b style="color: #ff9100;">Mua key</b> qua Telegram <a href="{{ telegram_link }}" target="_blank" style="color: #00b4db; text-decoration: none; font-weight: 700;">@{{ telegram_username }}</a>
+                        <div style="color: #bbb; font-size: 13px; margin-top: 5px;">Hoặc nhận key miễn phí bằng cách làm nhiệm vụ</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: flex-start;">
+                    <div style="min-width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#ff1744,#ff9100); display: flex; align-items: center; justify-content: center; font-weight: 900;">2</div>
+                    <div>
+                        <b style="color: #ff9100;">Nhập key</b> vào trang <a href="/get_acc" style="color: #00b4db; text-decoration: none; font-weight: 700;">Nhận Acc</a>
+                        <div style="color: #bbb; font-size: 13px; margin-top: 5px;">Nhập key CHEATGASA-XXXX-XXXX đã nhận</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: flex-start;">
+                    <div style="min-width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#ff1744,#ff9100); display: flex; align-items: center; justify-content: center; font-weight: 900;">3</div>
+                    <div>
+                        <b style="color: #ff9100;">Nhận 10 acc</b> Liên Quân random
+                        <div style="color: #bbb; font-size: 13px; margin-top: 5px;">Copy và đăng nhập vào game ngay</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 {{ shop_name }} - {{ shop_description }}</p>
+        <p style="margin-top:10px;">Telegram: @{{ telegram_username }}</p>
+    </footer>
+</body>
+</html>
