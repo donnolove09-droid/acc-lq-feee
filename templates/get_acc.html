@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận Acc - {{ shop_name }}</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color:#fff; min-height:100vh; }
+
+        header { background: rgba(0,0,0,0.4); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff1744; flex-wrap: wrap; gap: 10px; }
+        .logo { display:flex; align-items:center; gap:12px; }
+        .logo-circle { width:55px; height:55px; border-radius:50%; background: linear-gradient(135deg,#ff1744,#ff9100); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:22px; box-shadow:0 0 20px #ff1744; overflow: hidden; }
+        .logo-circle img { width:100%; height:100%; object-fit: cover; }
+        .logo-text { font-size:24px; font-weight:800; background: linear-gradient(90deg,#ff1744,#ff9100); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:600; }
+        nav a:hover { color:#ff1744; }
+        .btn { padding: 10px 24px; border-radius: 30px; border: none; background: linear-gradient(135deg, #ff1744, #ff9100); color: #fff; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: .3s; }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ff1744; }
+        .btn-telegram { background: linear-gradient(135deg, #0088cc, #00b4db); }
+        .btn-telegram:hover { box-shadow: 0 0 20px #0088cc; }
+
+        .container { max-width: 750px; margin: 40px auto; padding: 0 20px; }
+        h1 { text-align:center; font-size:34px; margin-bottom:15px; background: linear-gradient(90deg,#ff1744,#ff9100); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { text-align:center; color:#bbb; margin-bottom:30px; }
+        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 35px; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display:block; margin-bottom:10px; color:#ff9100; font-weight:600; font-size:14px; }
+        .input-group input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: #ffeb3b; font-size: 16px; font-family: monospace; letter-spacing: 1px; transition: .3s; }
+        .input-group input:focus { outline: none; border-color: #ff1744; box-shadow: 0 0 15px rgba(255,23,68,0.3); }
+        .submit-btn { width: 100%; padding: 16px; border-radius: 12px; border: none; background: linear-gradient(135deg, #4caf50, #8bc34a); color: #fff; font-weight: 800; font-size: 17px; cursor: pointer; transition: .3s; letter-spacing: 1px; }
+        .submit-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px #4caf50; }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .message { padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; font-weight: 600; display: none; }
+        .message.show { display: block; }
+        .message.success { background: rgba(76,175,80,0.2); color: #4caf50; border: 1px solid #4caf50; }
+        .message.error { background: rgba(244,67,54,0.2); color: #f44336; border: 1px solid #f44336; }
+        .message.warning { background: rgba(255,152,0,0.2); color: #ff9800; border: 1px solid #ff9800; }
+        .accounts { display: none; margin-top: 25px; }
+        .accounts.show { display: block; animation: fadeIn .4s; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+        .accounts h3 { color: #ff9100; margin-bottom: 20px; text-align: center; font-size: 22px; }
+        .acc-item { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,23,68,0.3); border-radius: 12px; padding: 15px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; transition: .3s; }
+        .acc-item:hover { border-color: #ff1744; box-shadow: 0 0 15px rgba(255,23,68,0.2); }
+        .acc-info { font-family: monospace; font-size: 15px; word-break: break-all; flex: 1; }
+        .acc-info .num { color: #ffeb3b; font-weight: 900; margin-right: 8px; }
+        .acc-info .label { color: #888; }
+        .acc-info b { color: #ff9100; }
+        .copy-btn { padding: 8px 16px; border-radius: 8px; border: none; background: #ff1744; color: #fff; font-weight: 700; cursor: pointer; font-size: 13px; transition: .3s; }
+        .copy-btn:hover { background: #ff9100; transform: scale(1.05); }
+        .copy-all-btn { width: 100%; margin-top: 15px; padding: 14px; border-radius: 10px; border: 2px solid #ff9100; background: transparent; color: #ff9100; font-weight: 700; font-size: 15px; cursor: pointer; transition: .3s; }
+        .copy-all-btn:hover { background: #ff9100; color: #fff; }
+        .note-box { background: rgba(0, 136, 204, 0.15); border-left: 4px solid #0088cc; padding: 18px 20px; border-radius: 10px; margin-top: 25px; }
+        .note-box h4 { color: #00b4db; margin-bottom: 12px; font-size: 16px; }
+        .note-box ul { list-style: none; padding-left: 5px; }
+        .note-box li { color: #ccc; padding: 5px 0; font-size: 14px; }
+        .note-box li::before { content: "•"; color: #0088cc; font-weight: 900; margin-right: 10px; }
+        .note-box a { color: #00b4db; text-decoration: none; font-weight: 700; }
+        .note-box a:hover { text-decoration: underline; }
+        .loading { display: inline-block; width: 16px; height: 16px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: middle; margin-right: 8px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        footer { text-align: center; padding: 30px; color: #777; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-circle">
+                {% if shop_avatar %}
+                    <img src="{{ shop_avatar }}" alt="Avatar" onerror="this.parentElement.innerText='QD'">
+                {% else %}
+                    QD
+                {% endif %}
+            </div>
+            <div class="logo-text">{{ shop_name }}</div>
+        </div>
+        <nav>
+            <a href="/">Trang chủ</a>
+            <a href="{{ telegram_link }}" target="_blank" class="btn btn-telegram">💬 Telegram</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>🔑 NHẬN 10 ACC</h1>
+        <p class="subtitle">Nhập key để nhận ngay 10 tài khoản Liên Quân random</p>
+
+        <div class="card">
+            <div id="message" class="message"></div>
+
+            <div class="input-group">
+                <label>🎫 Nhập key của bạn</label>
+                <input type="text" id="keyInput" placeholder="VD: CHEATGASA-XXXX-XXXX" autocomplete="off">
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitKey()">
+                🎁 NHẬN 10 ACC NGAY
+            </button>
+        </div>
+
+        <div class="card accounts" id="accountsCard">
+            <h3 id="accountsTitle">🎉 10 ACC CỦA BẠN</h3>
+            <div id="accountsList"></div>
+            <button class="copy-all-btn" onclick="copyAll()">📋 COPY TẤT CẢ</button>
+        </div>
+
+        <div class="note-box">
+            <h4>💬 Chưa có key?</h4>
+            <ul>
+                <li>Mua key với giá chỉ <b style="color:#ffeb3b">{{ key_price }}</b></li>
+                <li>Liên hệ Telegram: <a href="{{ telegram_link }}" target="_blank">@{{ telegram_username }}</a></li>
+                <li>Mỗi key nhận 10 acc Liên Quân random chất lượng cao</li>
+                <li>Key chỉ dùng được 1 lần duy nhất</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 {{ shop_name }}</p>
+        <p style="margin-top:10px;">Telegram: @{{ telegram_username }}</p>
+    </footer>
+
+    <script>
+        let currentAccounts = [];
+
+        async function submitKey() {
+            const input = document.getElementById('keyInput');
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('message');
+            const accCard = document.getElementById('accountsCard');
+            const accList = document.getElementById('accountsList');
+
+            const key = input.value.trim();
+            msg.className = 'message';
+            msg.innerText = '';
+            accCard.classList.remove('show');
+            accList.innerHTML = '';
+            currentAccounts = [];
+
+            if (!key) {
+                showMessage('Vui lòng nhập key!', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> ĐANG KIỂM TRA...';
+
+            try {
+                const res = await fetch('/api/check_key', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({key: key})
+                });
+                const data = await res.json();
+
+                if (!data.success) {
+                    showMessage(data.message || 'Có lỗi xảy ra!', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '🎁 NHẬN 10 ACC NGAY';
+                    return;
+                }
+
+                currentAccounts = data.accounts;
+                const title = document.getElementById('accountsTitle');
+                title.innerText = data.cached
+                    ? '👁️ KEY ĐÃ DÙNG - 10 ACC CŨ CỦA BẠN'
+                    : '🎉 10 ACC CỦA BẠN';
+
+                data.accounts.forEach((acc, i) => {
+                    const div = document.createElement('div');
+                    div.className = 'acc-item';
+                    div.innerHTML = `
+                        <div class="acc-info">
+                            <span class="num">#${i+1}</span>
+                            <span class="label">TK:</span> <b>${acc.user}</b>
+                            &nbsp;|&nbsp;
+                            <span class="label">MK:</span> <b>${acc.pass}</b>
+                        </div>
+                        <button class="copy-btn" onclick="copyAcc(${i})">📋 Copy</button>
+                    `;
+                    accList.appendChild(div);
+                });
+
+                accCard.classList.add('show');
+                showMessage(data.message, data.cached ? 'warning' : 'success');
+
+                setTimeout(() => {
+                    accCard.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }, 200);
+
+                input.value = '';
+                btn.disabled = true;
+                btn.innerHTML = '✅ ĐÃ NHẬN ACC';
+                btn.style.opacity = '0.6';
+
+            } catch (e) {
+                showMessage('Lỗi kết nối! Vui lòng thử lại.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '🎁 NHẬN 10 ACC NGAY';
+            }
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.className = 'message show ' + type;
+            msg.innerText = text;
+        }
+
+        function copyAcc(index) {
+            const acc = currentAccounts[index];
+            const text = 'TK: ' + acc.user + ' | MK: ' + acc.pass;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const old = btn.innerHTML;
+                btn.innerHTML = '✅ Đã copy';
+                setTimeout(() => btn.innerHTML = old, 1500);
+            });
+        }
+
+        function copyAll() {
+            if (currentAccounts.length === 0) return;
+            const text = currentAccounts.map((a, i) =>
+                `#${i+1} - TK: ${a.user} | MK: ${a.pass}`
+            ).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Đã copy tất cả ' + currentAccounts.length + ' acc!');
+            });
+        }
+
+        document.getElementById('keyInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') submitKey();
+        });
+    </script>
+</body>
+</html>
